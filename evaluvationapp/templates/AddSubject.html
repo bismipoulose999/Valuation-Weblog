@@ -1,0 +1,19 @@
+{% extends 'register.html' %}
+{% block body %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        <tr><td colspan="2">Add Subject</td></tr>
+        <tr><td>Subject</td><td><input type="text" name="t1"></td></tr>
+        <tr><td>Semester</td><td><select name="t2">
+            <option value="sem1">Sem1</option>
+            <option value="sem2">Sem2</option>
+            <option value="sem3">Sem3</option>
+            <option value="sem4">Sem4</option>
+            <option value="sem5">Sem5</option>
+            <option value="sem6">Sem6</option>
+        </select></td></tr>
+        <tr><td colspan="2"><input type="submit" value="Submit" name="b1"></td></tr>
+    </table>
+</form>
+{% endblock %}

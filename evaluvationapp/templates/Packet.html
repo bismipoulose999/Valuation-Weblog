@@ -1,0 +1,34 @@
+{% extends 'register.html' %}
+{% block body %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <script>
+        function getserious()
+        {
+            debugger;
+            var ser=document.getElementById("ser").value;
+            document.getElementById("t1").value=ser+"-";
+        }
+    </script>
+<table class="table">
+    <tr><td colspan="2">Add Packet</td></tr>
+   
+    <tr><td>Select Serious</td><td><select name="ser" id="ser" onchange="getserious();">
+        {% for d in data4 %}
+        <option value="{{d.2}}">{{d.2}}</option>
+        {% endfor %}
+    </select></td></tr>
+    <tr><td>PacketId</td><td><input type="text" name="t1" id="t1"></td></tr>
+   
+    <tr><td>Subject</td><td><select name="t3">
+        {% for d in data %}
+        <option value="{{d.0}}">{{d.1}}</option>
+        {% endfor %}
+    </select></td></tr>
+    <tr><td>No Of papers</td><td><input type="text" name="t4"></td></tr>
+    <tr><td colspan="2"><input type="submit" name="b1" value="Submit"></td></tr>
+
+</table>
+{{msg}}
+</form>
+{% endblock %}

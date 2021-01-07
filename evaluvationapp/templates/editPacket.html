@@ -1,0 +1,20 @@
+{% extends 'register.html' %}
+{% block body %}
+<form action="" method="POST">
+    {% csrf_token %}
+<table class="table">
+    <tr><td colspan="2">Add Packet</td></tr>
+    
+    <tr><td>PacketId</td><td><input type="text" name="t1"></td></tr>
+    <tr><td>Count</td><td><input type="text" name="t2"></td></tr>
+    <tr><td>Subject</td><td><select name="t3">
+        {% for d in data %}
+        <option value="{{d.0}}">{{d.1}}</option>
+        {% endfor %}
+    </select></td></tr>
+    <tr><td>No Of papers</td><td><input type="text" name="t4"></td></tr>
+    <tr><td colspan="2"><input type="submit" name="b1" value="Submit"></td></tr>
+
+</table>
+</form>
+{% endblock %}

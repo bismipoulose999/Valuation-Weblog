@@ -1,0 +1,12 @@
+{% extends 'register.html' %}
+{% block body %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <table class="table">
+
+        
+        <tr><td>College</td><td><input type="text" name="t1"></td></tr>
+        <tr><td colspan="2"><input type="Submit" value="Submit" name="b1"></td></tr>
+    </table>
+</form>
+{% endblock %}

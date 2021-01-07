@@ -1,0 +1,13 @@
+{% extends 'register.html' %}
+{% block body %}
+<table class="table">
+    <tr>
+        <th>ID</th><th>Name</th>
+    </tr>
+    {% for d in data %}
+    <tr>
+        <td>{{d.0}}</td> <td>{{d.1}}</td><td><a href="/editcollege?id={{d.0}}">Edit</a></td><td><a href="/removecollege?id={{d.0}}">Remove</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

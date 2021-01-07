@@ -1,0 +1,43 @@
+{% extends 'register.html' %}
+{% block body %}
+<form action="" method="POST">
+    {% csrf_token %}
+<table class="table">
+    <tr><td colspan="2">Add Packet</td></tr>
+    <tr><td>Semester</td><td><input type="radio" onclick="getsem1()" id="r1" name="r1" value="Odd">Odd <input type="radio" onclick="getsem2();" name="r1"  id="r2" value="Even">Even</td></tr>
+    <tr><td>Select Semester</td><td><select name="sem" id="sem">
+        <script>
+            function getsem1()
+            {
+                var select = document.getElementById("sem"); 
+                var el = document.createElement("option");
+    el.text = "Sem1";
+    el.value = "Sem1";
+    select.append(el);
+    var el1 = document.createElement("option");
+    el1.text = "Sem3";
+    el1.value = "Sem3";
+    select.append(el1);
+
+            }
+            function getsem2()
+            {
+                $('#sem').empty();
+                var select = document.getElementById("sem"); 
+                var el = document.createElement("option");
+    el.text = "Sem2";
+    el.value = "Sem2";
+    select.append(el);
+   
+            }
+        </script>
+    </select></td></tr>
+    <tr><td>Serious</td><td><input type="text" name="t1"></td></tr>
+   
+  
+    <tr><td colspan="2"><input type="submit" name="b1" value="Submit"></td></tr>
+
+</table>
+{{msg}}
+</form>
+{% endblock %}

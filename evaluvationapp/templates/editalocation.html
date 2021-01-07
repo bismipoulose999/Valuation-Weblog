@@ -1,0 +1,21 @@
+{% extends 'register.html' %}
+{% block body %}
+<form action="" method="POST">
+    {% csrf_token %}
+<table class="table">
+    <tr><td colspan="2">Packet Alocate</td></tr>
+    <tr><td>AlocationId</td><td><input type="text" value="{{data.0.0}}" name="t6"></td></tr>
+    <tr><td>PacketId</td><td><input type="text" value="{{data.0.1}}" name="t1"></td></tr>
+    
+    <tr><td>Subject</td><td><input type="text" name="t3" value="{{data.0.5}}" id="t3"></td></tr>
+    <tr><td>Faculty</td><td><select name="t4">
+        {% for d1 in data2 %}
+        <option value="{{d1.0}}">{{d1.1}}</option>
+        {% endfor %}
+    </select></td></tr>
+  
+    <tr><td colspan="2"><input type="submit" name="b1" value="Submit"></td></tr>
+
+</table>
+</form>
+{% endblock %}

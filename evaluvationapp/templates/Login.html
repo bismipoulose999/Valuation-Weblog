@@ -1,0 +1,13 @@
+{% extends 'Login1.html' %}
+{% block body %}
+<form action="" method="POST">
+    {% csrf_token %}
+<table class="table">
+    
+    <tr><td>UserName</td><td><input type="text" name="t1" required ></td></tr>
+    <tr><td>Password</td><td><input type="password" name="t2" required id=""></td></tr>
+    <tr><td colspan="2"><input type="submit" value="LOGIN" name="b1"></td></tr>
+</table>
+
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'register.html' %}
+{% block body %}
+<form method="POST">
+    {% csrf_token %}
+<table class="table">
+    
+    <tr><td colspan="2">ADD FACULTY</td></tr>
+    <tr><td>Name</td><td><input type="text" value="{{data.0.0}}" name="t7"></td></tr>
+    <tr><td>Name</td><td><input type="text" value="{{data.0.1}}" name="t1"></td></tr>
+    <tr><td>College</td><td><input type="text" value="{{data.0.2}}" name="t2"></td></tr>
+    <tr><td>MailId</td><td><input type="email" value="{{data.0.3}}" name="t3"></td></tr>
+    <tr><td>Phone</td><td><input type="text" value="{{data.0.4}}" name="t4"></td></tr>
+    <tr><td>Subject</td><td><select name="t5">
+
+        {% for d in data %}
+        <option value="{{d.0}}">{{d.1}}</option>
+        {% endfor %}
+    </select></td></tr>
+    <tr><td>Semester</td><td><select name="t6">
+        <option value="sem1">Sem1</option>
+        <option value="sem2">Sem2</option>
+        <option value="sem3">Sem3</option>
+        <option value="sem4">Sem4</option>
+        <option value="sem5">Sem5</option>
+        <option value="sem6">Sem6</option>
+    </select></td></tr>
+    <tr><td colspan="2"><input type="submit" value="Submit" name="b1"></td></tr>
+</table>
+</form>
+{% endblock %}
