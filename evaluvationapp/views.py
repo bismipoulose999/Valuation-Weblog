@@ -56,6 +56,10 @@ def Faculity(request):
     qry2="select * from subject_info"
     cur.execute(qry2)
     data=cur.fetchall()
+    qry3="select * from `college_info`"
+    cur.execute(qry3)
+    data3=cur.fetchall()
+    
     if(request.POST):
         name=request.POST.get("t1")
         college=request.POST.get("t2")
@@ -66,7 +70,7 @@ def Faculity(request):
         qry="insert into faculty_info (name,college,Mail_id,Phone_No,Subject_Id,Semester) values('"+str(name)+"','"+str(college)+"','"+str(mailid)+"','"+str(phone)+"','"+str(subject)+"','"+str(sem)+"')"
         cur.execute(qry)
         con.commit()
-    return render(request,"Faculity.html",{"data":data})
+    return render(request,"Faculity.html",{"data":data,"data3":data3})
 def Addcollege(request):
     if(request.POST):
         name=request.POST.get("t1")
@@ -91,7 +95,7 @@ def Packet(request):
         subject=request.POST.get("t3")
         noofpaper=request.POST.get("t4")
         
-        qry3="select faculty_id  from faculty_info where Subject_Id='"+subject+"' and faculty_id not in(select faculty_id from alocation_info )"
+        qry3="select faculty_id  from faculty_info where Subject_Id='"+subject+"' and faculty_id not in(select faculty_id from alocation_info1 ) and faculty_id not in(select faculty_id from alocation_info2 )"
         cur.execute(qry3)
         data1=cur.fetchall()
         if (data1):
@@ -123,13 +127,13 @@ def Packet2(request):
         
         subject=request.POST.get("t3")
         noofpaper=request.POST.get("t4")
-        
-        qry3="select faculty_id  from faculty_info where Subject_Id='"+subject+"' and faculty_id not in(select faculty_id from alocation_info )"
+        qqry="select "
+        qry3="select faculty_id  from faculty_info where Subject_Id='"+subject+"' andand faculty_id not in(select faculty_id from alocation_info ) and faculty_id not in(select faculty_id from alocation_info2 )"
         cur.execute(qry3)
         data1=cur.fetchall()
         if (data1):
             print(data1)
-            
+            #qqry="select s.subject_name from subject_info join alocation"
         
             faculty=data1[0][0]
             qry="insert into alocation_info2 (packet_id,subject_id,faculty_id) values('"+str(packetid)+"','"+str(subject)+"','"+str(faculty)+"')"
@@ -157,7 +161,7 @@ def Packet1(request):
         subject=request.POST.get("t3")
         noofpaper=request.POST.get("t4")
         
-        qry3="select faculty_id  from faculty_info where Subject_Id='"+subject+"' and faculty_id not in(select faculty_id from alocation_info )"
+        qry3="select faculty_id  from faculty_info where Subject_Id='"+subject+"' and faculty_id not in(select faculty_id from alocation_info1 ) and faculty_id not in(select faculty_id from alocation_info )"
         cur.execute(qry3)
         data1=cur.fetchall()
         if (data1):
@@ -185,7 +189,7 @@ def viewsubject(request):
     data=cur.fetchall()
     return render(request,"viewsubject.html",{"data":data})
 def viewfaculty(request):
-    qry="select * from faculty_info"
+    qry="select * from faculty_info join subject_info on (faculty_info.Subject_id=subject_info.subject_id)"
     cur.execute(qry)
     data=cur.fetchall()
     return render(request,"viewfaculty.html",{"data":data})
@@ -260,6 +264,9 @@ def editfac(request):
     qry="select * from faculty_info where faculty_id='"+str(id)+"'"
     cur.execute(qry)
     data=cur.fetchall()
+    qry1="select * from Subject_info "
+    cur.execute(qry1)
+    data1=cur.fetchall()
     if(request.POST):
         id=request.POST.get("t7")
         name=request.POST.get("t1")
@@ -271,7 +278,7 @@ def editfac(request):
         qry2="update faculty_info set name='"+str(name)+"',college='"+str(college)+"', Mail_id='"+str(mail)+"',Phone_No='"+str(pno)+"',Subject_Id='"+str(sub)+"',Semester='"+str(sem)+"' where faculty_id='"+str(id)+"'"
         cur.execute(qry2)
         con.commit()
-    return render(request,"editFaculity.html",{"data":data})
+    return render(request,"editFaculity.html",{"data":data,"data1":data1})
 def editpkt(request):
     id=request.GET.get("id")
     qry="select * from packet_info where packet_id='"+str(id)+"'"
@@ -330,7 +337,27 @@ def printslip(request):
     cur.execute(qry2)
     data2=cur.fetchall()
     return render(request,"printslip.html",{"data":data,"data2":data2,"data1":data1})
-
+def Firstvalidation(request):
+    qry="select subject_info.subject_name,faculty_info.name,packet_info.noofpaper,alocation_info.* from alocation_info join subject_info on(alocation_info.subject_id=subject_info.subject_id) join faculty_info on(alocation_info.faculty_id=faculty_info.faculty_id) join packet_info on(packet_info.packet_id=alocation_info.packet_id)"
+    cur.execute(qry)
+    data=cur.fetchall()
+    
+    
+    return render(request,"Firstvalidation.html",{"data":data})
+def SecondEvaluvation(request):
+    qry1="select subject_info.subject_name,faculty_info.name,packet_info.noofpaper,alocation_info1.* from alocation_info1 join subject_info on(alocation_info1.subject_id=subject_info.subject_id) join faculty_info on(alocation_info1.faculty_id=faculty_info.faculty_id) join packet_info on(packet_info.packet_id=alocation_info1.packet_id)"
+    cur.execute(qry1)
+    data1=cur.fetchall()
+    
+    
+    return render(request,"SecondEvaluvation.html",{"data1":data1})
+def ThirdEvaluVation(request):
+    qry2="select subject_info.subject_name,faculty_info.name,packet_info.noofpaper,alocation_info2.* from alocation_info2 join subject_info on(alocation_info2.subject_id=subject_info.subject_id) join faculty_info on(alocation_info2.faculty_id=faculty_info.faculty_id) join packet_info on(packet_info.packet_id=alocation_info2.packet_id)"
+    cur.execute(qry2)
+    data2=cur.fetchall()
+    
+    
+    return render(request,"ThirdEvaluVation.html",{"data2":data2})
 def serious(request):
     if request.POST :
         sem=request.POST.get("sem")

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from evaluvationapp import views
 urlpatterns = [
+    path('',views.login,name="login"),
     path('admin/', admin.site.urls),
     path('home',views.home,name="home"),
     path('login/',views.login,name="login"),
@@ -49,4 +50,7 @@ urlpatterns = [
        path('printslip',views.printslip,name="printslip"),
         path('serious',views.serious,name="serious"),
        path('valuvation',views.valuvation,name="valuvation"),
+         path('Firstvalidation',views.Firstvalidation,name="Firstvalidation"),
+        path('SecondEvaluvation',views.SecondEvaluvation,name="SecondEvaluvation"),
+       path('ThirdEvaluVation',views.ThirdEvaluVation,name="ThirdEvaluVation"),
 ]
