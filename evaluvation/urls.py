@@ -53,4 +53,7 @@ urlpatterns = [
          path('Firstvalidation',views.Firstvalidation,name="Firstvalidation"),
         path('SecondEvaluvation',views.SecondEvaluvation,name="SecondEvaluvation"),
        path('ThirdEvaluVation',views.ThirdEvaluVation,name="ThirdEvaluVation"),
+       path('retrive3',views.retrive3,name="retrive3"),
+       path('retrive1',views.retrive1,name="retrive1"),
+       path('retrive2',views.retrive2,name="retrive2"),
 ]

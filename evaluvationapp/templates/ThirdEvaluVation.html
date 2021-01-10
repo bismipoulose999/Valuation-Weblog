@@ -19,11 +19,11 @@
 <table class="table" border="2">
     {% for d in data2 %}
     <tr>
-        <th>ID</th><th>PacketID</th><th>Subject</th><th>Faculty</th><th>NoOfPapers</th>
+        <th>ID</th><th>PacketID</th><th>Subject</th><th>Faculty</th><th>NoOfPapers</th><th>Status</th>
     </tr>
   
     <tr>
-        <td>{{d.3}}</td> <td>{{d.4}}</td> <td>{{d.0}}</td> <td>{{d.1}}</td><td>{{d.2}}</td>
+        <td>{{d.3}}</td> <td>{{d.4}}</td> <td>{{d.0}}</td> <td>{{d.1}}</td><td>{{d.2}}</td><td>{{d.7}}</td><td><a href="/retrive3?id={{d.3}}">Received</a></td>
     </tr>
     {% endfor %}
 </table>

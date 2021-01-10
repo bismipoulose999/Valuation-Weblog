@@ -9,13 +9,14 @@
     <tr><td>College</td><td><select name="t2">
 
         {% for d in data3 %}
-        <option value="{{d.0}}">{{d.1}}</option>
+        <option value="{{d.1}}">{{d.1}}</option>
         {% endfor %}
     </select>
         
     </td></tr>
     <tr><td>MailId</td><td><input type="email" name="t3"></td></tr>
     <tr><td>Phone</td><td><input type="text" name="t4"></td></tr>
+    <tr><td>Secondary Phone</td><td><input type="text" name="t14"></td></tr>
     <tr><td>Subject</td><td><select name="t5">
 
         {% for d in data %}

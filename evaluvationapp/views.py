@@ -30,7 +30,8 @@ def AddSubject(request):
     if(request.POST):
         name=request.POST.get("t1")
         sem=request.POST.get("t2")
-        qry="insert into subject_info (subject_name,semester) values('"+str(name)+"','"+str(sem)+"')"
+        subcode=request.POST.get("t12")
+        qry="insert into subject_info (subject_name,semester,subjectcode) values('"+str(name)+"','"+str(sem)+"','"+str(subcode)+"')"
         cur.execute(qry)
         con.commit()
     return render(request,"AddSubject.html")
@@ -65,9 +66,10 @@ def Faculity(request):
         college=request.POST.get("t2")
         mailid=request.POST.get("t3")
         phone=request.POST.get("t4")
+        phone2=request.POST.get("t14")
         subject=request.POST.get("t5")
         sem=request.POST.get("t6")
-        qry="insert into faculty_info (name,college,Mail_id,Phone_No,Subject_Id,Semester) values('"+str(name)+"','"+str(college)+"','"+str(mailid)+"','"+str(phone)+"','"+str(subject)+"','"+str(sem)+"')"
+        qry="insert into faculty_info (name,college,Mail_id,Phone_No,Subject_Id,Semester,phoneno2) values('"+str(name)+"','"+str(college)+"','"+str(mailid)+"','"+str(phone)+"','"+str(subject)+"','"+str(sem)+"','"+str(phone2)+"')"
         cur.execute(qry)
         con.commit()
     return render(request,"Faculity.html",{"data":data,"data3":data3})
@@ -100,8 +102,11 @@ def Packet(request):
         data1=cur.fetchall()
         if (data1):
             print(data1)
-            
-        
+            qry11="select count(*) from alocation_info where faculty_id='"+str(data[0][0])+"'"
+            cur.execute(qry11)
+            dataa=cur.fetchall()
+            if (len(dataa)>0):
+                msg="Faculty Already alocated"
             faculty=data1[0][0]
             qry="insert into alocation_info (packet_id,subject_id,faculty_id) values('"+str(packetid)+"','"+str(subject)+"','"+str(faculty)+"')"
             cur.execute(qry)
@@ -134,7 +139,11 @@ def Packet2(request):
         if (data1):
             print(data1)
             #qqry="select s.subject_name from subject_info join alocation"
-        
+            qry11="select count(*) from alocation_info2 where faculty_id='"+str(data[0][0])+"'"
+            cur.execute(qry11)
+            dataa=cur.fetchall()
+            if(dataa>0):
+                msg="Faculty Already alocated"
             faculty=data1[0][0]
             qry="insert into alocation_info2 (packet_id,subject_id,faculty_id) values('"+str(packetid)+"','"+str(subject)+"','"+str(faculty)+"')"
             cur.execute(qry)
@@ -167,7 +176,11 @@ def Packet1(request):
         if (data1):
             print(data1)
             
-        
+            qry11="select count(*) from alocation_info where faculty_id='"+str(data[0][0])+"'"
+            cur.execute(qry11)
+            dataa=cur.fetchall()
+            if(len(dataa)>0):
+                msg="Faculty Already alocated"
             faculty=data1[0][0]
             qry="insert into alocation_info1 (packet_id,subject_id,faculty_id) values('"+str(packetid)+"','"+str(subject)+"','"+str(faculty)+"')"
             cur.execute(qry)
@@ -194,12 +207,12 @@ def viewfaculty(request):
     data=cur.fetchall()
     return render(request,"viewfaculty.html",{"data":data})
 def viewalocation(request):
-    qry="select a.alocation_id,a.packet_id,s.subject_name,f.name from   alocation_info a join  subject_info s on(a.subject_id=s.subject_id) join  faculty_info f on(f.faculty_id=a.faculty_id)"
+    qry="select a.alocation_id,a.packet_id,s.subject_name,f.name, p.noofpaper from alocation_info a join subject_info s on(a.subject_id=s.subject_id) join faculty_info f on(f.faculty_id=a.faculty_id) join packet_info p on(a.packet_id=p.packet_id)"
     cur.execute(qry)
     data=cur.fetchall()
     return render(request,"viewalocation.html",{"data":data})
 def viewalocation1(request):
-    qry="select a.alocation_id,a.packet_id,s.subject_name,f.name from   alocation_info1 a join  subject_info s on(a.subject_id=s.subject_id) join  faculty_info f on(f.faculty_id=a.faculty_id)"
+    qry="select a.alocation_id,a.packet_id,s.subject_name,f.name, p.noofpaper from alocation_info1 a join subject_info s on(a.subject_id=s.subject_id) join faculty_info f on(f.faculty_id=a.faculty_id) join packet_info p on(a.packet_id=p.packet_id)"
     cur.execute(qry)
     data=cur.fetchall()
     return render(request,"viewalocation1.html",{"data":data})
@@ -255,7 +268,9 @@ def editaloca(request):
        
         faculty=request.POST.get("t4")
         no=request.POST.get("t5")
-        qry2="update alocation_info set packet_id='"+str(packet)+"', faculty='"+str(faculty)+"',noofpapers='"+str(no)+"' where alocation_id='"+str(id)+"'"
+        
+    
+        qry2="update alocation_info set faculty_id='"+str(faculty)+"' where alocation_id='"+str(id)+"'"
         cur.execute(qry2)
         con.commit()
     return render(request,"editalocation.html",{"data":data,"data1":data1,"data2":data2})
@@ -344,6 +359,12 @@ def Firstvalidation(request):
     
     
     return render(request,"Firstvalidation.html",{"data":data})
+def retrive1(request):
+    id=request.GET.get("id")
+    qry="update alocation_info set status='Recieved' where alocation_id='"+str(id)+"'"
+    cur.execute(qry)
+    con.commit()
+    return HttpResponseRedirect("Firstvalidation")
 def SecondEvaluvation(request):
     qry1="select subject_info.subject_name,faculty_info.name,packet_info.noofpaper,alocation_info1.* from alocation_info1 join subject_info on(alocation_info1.subject_id=subject_info.subject_id) join faculty_info on(alocation_info1.faculty_id=faculty_info.faculty_id) join packet_info on(packet_info.packet_id=alocation_info1.packet_id)"
     cur.execute(qry1)
@@ -351,6 +372,12 @@ def SecondEvaluvation(request):
     
     
     return render(request,"SecondEvaluvation.html",{"data1":data1})
+def retrive2(request):
+    id=request.GET.get("id")
+    qry="update alocation_info1 set status='Recieved' where alocation_id='"+str(id)+"'"
+    cur.execute(qry)
+    con.commit()
+    return HttpResponseRedirect("SecondEvaluvation")
 def ThirdEvaluVation(request):
     qry2="select subject_info.subject_name,faculty_info.name,packet_info.noofpaper,alocation_info2.* from alocation_info2 join subject_info on(alocation_info2.subject_id=subject_info.subject_id) join faculty_info on(alocation_info2.faculty_id=faculty_info.faculty_id) join packet_info on(packet_info.packet_id=alocation_info2.packet_id)"
     cur.execute(qry2)
@@ -358,6 +385,12 @@ def ThirdEvaluVation(request):
     
     
     return render(request,"ThirdEvaluVation.html",{"data2":data2})
+def retrive3(request):
+    id=request.GET.get("id")
+    qry="update alocation_info2 set status='Recieved' where alocation_id='"+str(id)+"'"
+    cur.execute(qry)
+    con.commit()
+    return HttpResponseRedirect("ThirdEvaluvation")
 def serious(request):
     if request.POST :
         sem=request.POST.get("sem")
